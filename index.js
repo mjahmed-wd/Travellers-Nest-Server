@@ -30,12 +30,12 @@ client.connect((err) => {
     .db(process.env.DB_NAME)
     .collection(process.env.DB_REVIEW_COLLECTION);
 
-  //   app.post("/addProduct", (req, res) => {
-  //     const products = req.body;
-  //     productsCollection.insertOne(products).then((result) => {
-  //       res.json(result.insertedCount);
-  //     });
-  //   });
+    app.post("/addProperty", (req, res) => {
+      const products = req.body;
+      propertyCollection.insertOne(products).then((result) => {
+        res.json(result.insertedCount);
+      });
+    });
 
   app.get("/allProperties", (req, res) => {
     propertyCollection.find({}).toArray((err, documents) => {
