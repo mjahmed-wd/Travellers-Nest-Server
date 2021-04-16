@@ -80,14 +80,7 @@ client.connect((err) => {
     });
   });
 
-  app.get("/allPlacedOrders", (req, res) => {
-    // const userEmail = shipment.email;
-    ordersCollection
-      .find({})
-      .toArray((err, documents) => {
-        res.send(documents);
-      });
-  });
+  
   app.get("/orders/:email", (req, res) => {
     // const userEmail = shipment.email;
     ordersCollection
@@ -109,6 +102,31 @@ client.connect((err) => {
       res.send(documents);
     });
   })
+
+  // Admin
+  // All Booking
+  app.get("/allPlacedOrders", (req, res) => {
+    // const userEmail = shipment.email;
+    ordersCollection
+      .find({})
+      .toArray((err, documents) => {
+        res.send(documents);
+      });
+  });
+  // Update Order Status
+  app.patch("/updateOrderStatus/:id",(req,res)=>{
+    const {status}=req.body
+    // console.log(req.body,req.params.id)
+    ordersCollection.updateOne({ _id: ObjectId(req.params.id) },
+    {
+      $set: {status:status}
+    })
+    .then(result=>{
+      res.send(result)
+    })
+  })
+
+
 });
 
 app.listen(process.env.PORT || port);
