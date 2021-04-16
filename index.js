@@ -54,23 +54,24 @@ client.connect((err) => {
   //     res.json(req.params.roll)
   //   });
 
-  //   app.patch("/updateProduct/:id",(req,res)=>{
-  //     productsCollection.updateOne({ _id: ObjectId(req.params.id) },
-  //     {
-  //       $set: {name:req.body.name, price:req.body.price, variant:req.body.variant}
-  //     })
-  //     .then(result=>{
-  //       res.send(result)
-  //     })
-  //   })
+    app.patch("/updateProperty/:id",(req,res)=>{
+      const {name,price,address,country,description}=req.body
+      propertyCollection.updateOne({ _id: ObjectId(req.params.id) },
+      {
+        $set: {name:name, price:price, address:address,country:country,description:description }
+      })
+      .then(result=>{
+        res.send(result)
+      })
+    })
 
-  //   app.delete("/delete/:id", (req, res) => {
-  //     productsCollection
-  //       .deleteOne({ _id: ObjectId(req.params.id) })
-  //       .then((result) => {
-  //         res.json(!!result.deletedCount);
-  //       });
-  //   });
+    app.delete("/deleteProperty/:id", (req, res) => {
+      propertyCollection
+        .deleteOne({ _id: ObjectId(req.params.id) })
+        .then((result) => {
+          res.json(!!result.deletedCount);
+        });
+    });
 
   app.post("/addOrder", (req, res) => {
     const order = req.body;
@@ -79,6 +80,14 @@ client.connect((err) => {
     });
   });
 
+  app.get("/allPlacedOrders", (req, res) => {
+    // const userEmail = shipment.email;
+    ordersCollection
+      .find({})
+      .toArray((err, documents) => {
+        res.send(documents);
+      });
+  });
   app.get("/orders/:email", (req, res) => {
     // const userEmail = shipment.email;
     ordersCollection
