@@ -128,12 +128,23 @@ client.connect((err) => {
       res.send(result)
     })
   })
-
+// Admin Manage Section
   // Add Admin
   app.post("/addAdmin", (req, res) => {
     const adminData = req.body;
     adminCollection.insertOne(adminData).then((result) => {
       res.json(result.insertedCount);
+    });
+  });
+  // Check If Admin or not 
+  app.get("/checkAdminRole/:email", (req, res) => {
+    adminCollection.find({"email":req.params.email}).toArray((err, documents) => {
+      if(err){
+        res.sendStatus(400).send("Could not perform the search")
+      }
+      else{
+        res.json(documents)
+      }
     });
   });
 
