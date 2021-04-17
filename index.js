@@ -29,6 +29,9 @@ client.connect((err) => {
   const reviewCollection = client
     .db(process.env.DB_NAME)
     .collection(process.env.DB_REVIEW_COLLECTION);
+  const adminCollection = client
+    .db(process.env.DB_NAME)
+    .collection(process.env.DB_ADMIN_COLLECTION);
 
     app.post("/addProperty", (req, res) => {
       const products = req.body;
@@ -126,6 +129,13 @@ client.connect((err) => {
     })
   })
 
+  // Add Admin
+  app.post("/addAdmin", (req, res) => {
+    const adminData = req.body;
+    adminCollection.insertOne(adminData).then((result) => {
+      res.json(result.insertedCount);
+    });
+  });
 
 });
 
