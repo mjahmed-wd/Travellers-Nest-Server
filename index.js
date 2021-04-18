@@ -87,9 +87,6 @@ client.connect((err) => {
         res.send(documents[0]);
       });
   });
-  //   app.get("/update/:roll", (req, res) => {
-  //     res.json(req.params.roll)
-  //   });
 
   app.patch("/updateProperty/:id", (req, res) => {
     const { name, price, address, country, description } = req.body;
